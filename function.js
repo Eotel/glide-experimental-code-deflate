@@ -1,5 +1,7 @@
 const uint8ArrayToBase64 = (uint8Array) => {
-  return btoa(String.fromCharCode(...uint8Array));
+  return btoa(
+    uint8Array.reduce((data, byte) => data + String.fromCharCode(byte), "")
+  );
 };
 
 const base64ToUint8Array = (base64Str) => {
@@ -17,11 +19,11 @@ const compress = (data) => {
 };
 
 const decompress = (data) => {
-  const decompressed = pako.inflate(base64ToUint8Array(data), { to: 'string' });
+  const decompressed = pako.inflate(base64ToUint8Array(data), { to: "string" });
   return decompressed;
 };
 
 window.function = function (str) {
-  const data = str.value ?? '';
+  const data = str.value ?? "";
   return compress(data);
 };
